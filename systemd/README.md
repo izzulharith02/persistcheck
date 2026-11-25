@@ -119,7 +119,7 @@ These rules apply to every use of PersistCheck, including coursework demos.
 
 **1. Authorised scope**
 - Only systems you **own**, or systems you have **written permission** to audit from the owner.
-- For IKB31603: only the team's own lab VM(s): `[VM hostname / IP, e.g. persistcheck-lab / 192.168.56.10]`.
+- For IKB31603: only the team's own lab VM(s): `kali` (Kali Linux 2026.1, VirtualBox, host-only network 192.168.56.105 / localhost 127.0.0.1).
 - Default scope is the local machine (`--root /`) or a disk image you are authorised to examine (`--root /mnt/image`).
 - Out of scope: university servers, lab machines belonging to others, cloud hosts, and any production system.
 
@@ -144,7 +144,7 @@ These rules apply to every use of PersistCheck, including coursework demos.
 2. If the terminal does not respond: `pkill -f persistcheck` from another terminal.
 3. Lab VM only: run `sudo ./lab/cleanup.sh` to remove all planted test files.
 4. Tell the system owner (or lab lecturer) what happened, when, and what was running.
-5. Emergency contacts: `[Team leader name – phone]`, `[Lab lecturer name – email]`.
+5. Emergency contacts: team members (Hussain, Izzul Harith, Afif) via the project group chat; lab lecturers Mr. Amirul Badzlin bin Badrul Hisham.
 
 ---
 
@@ -170,4 +170,4 @@ PersistCheck finds problems such as root services that any user can hijack. If y
 - Keep a record of when you reported and the owner's reply.
 - Delete the local output folder (`./persistcheck_output/`) once the owner confirms receipt and you no longer need it.
 
-**Reporting a bug in PersistCheck itself:** open a GitHub issue. For security bugs in the tool, email `[team contact email]` instead of opening a public issue.
+**Reporting a bug in PersistCheck itself:** open a GitHub issue. For security bugs in the tool, contact the repository owner privately via GitHub (@izzulharith02) instead of opening a public issue.
