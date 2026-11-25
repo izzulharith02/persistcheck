@@ -1,4 +1,4 @@
-<!-- Member 2's README sections. Paste these into README.md. Fill in every [bracketed] value. -->
+<!-- Systemd module README (Member 2). Fill in every [bracketed] value. -->
 
 ## Systemd Auditor
 
@@ -28,6 +28,80 @@ python3 systemd/systemd_auditor.py --root /            # audit this machine
 python3 systemd/systemd_auditor.py --root /mnt/image   # audit a mounted disk image offline
 python3 systemd/systemd_auditor.py --json              # machine-readable output
 ```
+
+### Lab test walkthrough
+
+Tested on a Kali Linux 2026.1 VM (VirtualBox) with a snapshot taken first. Screenshots were taken before the module was moved into the `systemd/` folder, so the commands show `systemd_auditor.py` without the folder prefix.
+
+**Step 1 – Baseline scan of the clean system**
+
+```bash
+sudo python3 systemd/systemd_auditor.py
+```
+
+![Baseline scan of a clean Kali VM](<img width="724" height="148" alt="01_clean_scan" src="https://github.com/user-attachments/assets/866f534b-e7f4-4354-8f10-7d7ae520b219" />
+)
+
+The only finding is a real leftover unit in the Kali image (`grub-install-devices.service`) that points to a missing script. It is MEDIUM, not CRITICAL, because `/usr/local/sbin` is root-owned.
+
+**Step 2 – Plant harmless test persistence (lab VM only)**
+
+```bash
+chmod +x lab/*.sh
+sudo ./lab/plant_test_persistence.sh --i-am-on-a-lab-vm
+```
+
+![Planting the lab test cases](screenshots/02_plant_test_cases.png)
+
+**Step 3 – Scan again: all planted test cases are detected**
+
+```bash
+sudo python3 systemd/systemd_auditor.py | grep -E "^\[|pc-test"
+```
+
+![Detection of planted systemd persistence](screenshots/03_planted_scan.png)
+
+| Planted test case | Result |
+|---|---|
+| `pc-test-fetch.service` – `curl \| sh` pattern | CRITICAL – suspicious command |
+| `pc-test-writable-exec.service` – root runs a world-writable script | CRITICAL – executable modifiable by others |
+| `pc-test-writable-unit.service` – world-writable unit file | CRITICAL – unit file modifiable by others |
+| `pc-test-tmp.service` + `.timer` – hidden program in `/tmp` | HIGH – temp directory, MEDIUM – hidden file, linked to the timer (T1053.006) |
+
+**Step 4 – Clean up and confirm**
+
+```bash
+sudo ./lab/cleanup.sh
+sudo python3 systemd/systemd_auditor.py
+```
+
+![Cleanup and re-scan](screenshots/04_cleanup_and_rescan.png)
+
+**Command-line help**
+
+```bash
+python3 systemd/systemd_auditor.py --help
+```
+
+![Help text](screenshots/05_help_text.png)
+
+**JSON output** (same fields as the other PersistCheck modules)
+
+```bash
+sudo python3 systemd/systemd_auditor.py --json
+```
+
+![JSON output](screenshots/06_json_output.png)
+
+### Limitations and testing notes
+
+- **Package check timeout.** The first scan showed 1 finding and later scans showed 2. The `dpkg -S` lookup timed out on a cold start (5 s), so the "not installed by any package" check was skipped. The timeout was raised to 15 s and results are now consistent.
+
+  ![Timeout fix and consistent re-scan](screenshots/07_timeout_fix.png)
+
+- **False positives on stock units.** The first version reported 33 findings on a clean system, mostly stock package units pointing at optional tools that are not installed. Minor checks (missing binary, relative path) now only apply to enabled or locally added units, which brought a clean system down to 1–2 real findings.
+- **Offline images (`--root`).** Absolute symlinks inside a mounted image (e.g. `/bin -> usr/bin`) resolve against the host, so some binaries may be reported missing. The package check only runs on the live system (`--root /`).
+- **Run as root.** Without `sudo`, unreadable unit files are reported as INFO and not fully checked.
 
 ---
 
