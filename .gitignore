@@ -221,3 +221,11 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# PersistCheck
+persistcheck_output/
+*.log
+.env
+*.pem
+*.key
+secrets/
