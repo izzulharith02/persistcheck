@@ -229,3 +229,6 @@ persistcheck_output/
 *.pem
 *.key
 secrets/
+
+# Local test environment
+/lab/test-root/
