@@ -24,9 +24,9 @@
 - **Read-only:** it never starts, stops, enables, edits or deletes a unit.
 
 ```bash
-python3 systemd_auditor.py --root /            # audit this machine
-python3 systemd_auditor.py --root /mnt/image   # audit a mounted disk image offline
-python3 systemd_auditor.py --json              # machine-readable output
+python3 systemd/systemd_auditor.py --root /            # audit this machine
+python3 systemd/systemd_auditor.py --root /mnt/image   # audit a mounted disk image offline
+python3 systemd/systemd_auditor.py --json              # machine-readable output
 ```
 
 ---

@@ -10,8 +10,8 @@ READ-ONLY: this module never starts, stops, enables, edits or deletes a unit.
 It only reads files under the audited root directory.
 
 Can be run alone for testing:
-    python3 systemd_auditor.py --root /
-    python3 systemd_auditor.py --root /mnt/disk_image --json
+    python3 systemd/systemd_auditor.py --root /
+    python3 systemd/systemd_auditor.py --root /mnt/disk_image --json
 main.py imports and calls audit(root) instead.
 """
 
@@ -392,8 +392,8 @@ def audit(root="/"):
 def main():
     parser = argparse.ArgumentParser(
         description="PersistCheck systemd auditor (standalone test mode, read-only).",
-        epilog="Examples:\n  python3 systemd_auditor.py --root /\n"
-               "  python3 systemd_auditor.py --root /mnt/image --json",
+        epilog="Examples:\n  python3 systemd/systemd_auditor.py --root /\n"
+               "  python3 systemd/systemd_auditor.py --root /mnt/image --json",
         formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--root", default="/", help="filesystem root to audit (default: / = this machine)")
     parser.add_argument("--json", action="store_true", help="print findings as JSON")
