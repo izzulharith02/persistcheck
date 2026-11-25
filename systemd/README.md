@@ -96,13 +96,15 @@ python3 systemd/systemd_auditor.py --help
 sudo python3 systemd/systemd_auditor.py --json
 ```
 
-![JSON output](screenshots/06_json_output.png)
+<img width="724" height="355" alt="image" src="https://github.com/user-attachments/assets/39722e89-53cd-4e6c-a22c-1fd9df70738f" />
+
 
 ### Limitations and testing notes
 
 - **Package check timeout.** The first scan showed 1 finding and later scans showed 2. The `dpkg -S` lookup timed out on a cold start (5 s), so the "not installed by any package" check was skipped. The timeout was raised to 15 s and results are now consistent.
 
- <img width="724" height="355" alt="image" src="https://github.com/user-attachments/assets/3456c437-2fc9-41af-808a-5d851dd2c170" />
+<img width="724" height="322" alt="image" src="https://github.com/user-attachments/assets/6cedbce1-d2af-4898-83c7-9a343c82b1e7" />
+
 
 
 - **False positives on stock units.** The first version reported 33 findings on a clean system, mostly stock package units pointing at optional tools that are not installed. Minor checks (missing binary, relative path) now only apply to enabled or locally added units, which brought a clean system down to 1–2 real findings.
