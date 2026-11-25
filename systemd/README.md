@@ -39,7 +39,8 @@ Tested on a Kali Linux 2026.1 VM (VirtualBox) with a snapshot taken first. Scree
 sudo python3 systemd/systemd_auditor.py
 ```
 
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/8ddfd935-e39a-4b1e-a2e7-8fb4e0b9b4a9" />
+<img width="724" height="148" alt="01_clean_scan" src="https://github.com/user-attachments/assets/7c548373-58b9-4a04-913a-52f75df32a3b" />
+
 
 
 The only finding is a real leftover unit in the Kali image (`grub-install-devices.service`) that points to a missing script. It is MEDIUM, not CRITICAL, because `/usr/local/sbin` is root-owned.
