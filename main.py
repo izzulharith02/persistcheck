@@ -22,6 +22,7 @@ from dataclasses import replace
 
 from startup.startup_auditor import audit as audit_startup
 from systemd.systemd_auditor import audit as audit_systemd
+from cron.cron_auditor import audit as audit_cron
 
 
 # ============================================================
@@ -673,7 +674,15 @@ def main():
     # 3. Cron Auditor
     if args.module in ("cron", "all"):
 
-        print("\nCron Auditor integration is pending.")
+        print("\nStarting Cron Auditor...")
+        print("-" * 45)
+
+        cron_findings = audit_cron(str(root_path))
+        all_findings.extend(cron_findings)
+
+        print(
+            f"Cron findings: {len(cron_findings)}"
+        )
 
 
     # ========================================================
