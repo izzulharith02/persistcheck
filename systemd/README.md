@@ -52,7 +52,8 @@ chmod +x lab/*.sh
 sudo ./lab/plant_test_persistence.sh --i-am-on-a-lab-vm
 ```
 
-![Planting the lab test cases](screenshots/02_plant_test_cases.png)
+<img width="724" height="95" alt="image" src="https://github.com/user-attachments/assets/5da06e9f-a048-49d9-9a16-35fd143f3422" />
+
 
 **Step 3 – Scan again: all planted test cases are detected**
 
@@ -60,7 +61,8 @@ sudo ./lab/plant_test_persistence.sh --i-am-on-a-lab-vm
 sudo python3 systemd/systemd_auditor.py | grep -E "^\[|pc-test"
 ```
 
-![Detection of planted systemd persistence](screenshots/03_planted_scan.png)
+<img width="724" height="512" alt="image" src="https://github.com/user-attachments/assets/1b668c6a-aa1f-4daa-bf1e-b468a92d26c4" />
+
 
 | Planted test case | Result |
 |---|---|
@@ -76,7 +78,8 @@ sudo ./lab/cleanup.sh
 sudo python3 systemd/systemd_auditor.py
 ```
 
-![Cleanup and re-scan](screenshots/04_cleanup_and_rescan.png)
+<img width="724" height="275" alt="image" src="https://github.com/user-attachments/assets/271ce9a9-50e6-4b4d-b8f4-aac263165839" />
+
 
 **Command-line help**
 
@@ -84,7 +87,8 @@ sudo python3 systemd/systemd_auditor.py
 python3 systemd/systemd_auditor.py --help
 ```
 
-![Help text](screenshots/05_help_text.png)
+<img width="724" height="227" alt="image" src="https://github.com/user-attachments/assets/d7df3f49-2aca-4692-a5a7-ffec16e41054" />
+
 
 **JSON output** (same fields as the other PersistCheck modules)
 
@@ -98,7 +102,8 @@ sudo python3 systemd/systemd_auditor.py --json
 
 - **Package check timeout.** The first scan showed 1 finding and later scans showed 2. The `dpkg -S` lookup timed out on a cold start (5 s), so the "not installed by any package" check was skipped. The timeout was raised to 15 s and results are now consistent.
 
-  ![Timeout fix and consistent re-scan](screenshots/07_timeout_fix.png)
+ <img width="724" height="355" alt="image" src="https://github.com/user-attachments/assets/3456c437-2fc9-41af-808a-5d851dd2c170" />
+
 
 - **False positives on stock units.** The first version reported 33 findings on a clean system, mostly stock package units pointing at optional tools that are not installed. Minor checks (missing binary, relative path) now only apply to enabled or locally added units, which brought a clean system down to 1–2 real findings.
 - **Offline images (`--root`).** Absolute symlinks inside a mounted image (e.g. `/bin -> usr/bin`) resolve against the host, so some binaries may be reported missing. The package check only runs on the live system (`--root /`).
